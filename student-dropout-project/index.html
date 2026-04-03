@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body style="text-align:center;">
+
+<h2>Student Dropout Prediction 🎓</h2>
+
+<input id="study" placeholder="Study Hours"><br><br>
+<input id="attendance" placeholder="Attendance %"><br><br>
+
+<button onclick="predict()">Predict</button>
+
+<h3 id="result"></h3>
+
+<script>
+async function predict() {
+    let study = document.getElementById("study").value;
+    let attendance = document.getElementById("attendance").value;
+
+    let response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            study_hours: study,
+            attendance: attendance
+        })
+    });
+
+    let data = await response.json();
+
+    document.getElementById("result").innerText =
+        "Prediction: " + data.result;
+}
+</script>
+
+</body>
+</html>
